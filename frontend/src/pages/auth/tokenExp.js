@@ -1,5 +1,5 @@
 const REFRESH_TOKEN_LIFETIME_HOURS = 2;
-const ACCESS_TOKEN_LIFETIME_MINUTES = 20;
+const ACCESS_TOKEN_LIFETIME_MINUTES = 19;
 
 export default async function tokenExp() {
     const now = new Date();

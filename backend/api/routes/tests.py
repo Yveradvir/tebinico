@@ -5,7 +5,7 @@ class Protected(Resource):
     @jwt_required()
     def get(self):
         jwt = get_jwt()
-        print(jwt)
+        print()
 
         return make_response(
             jsonify(

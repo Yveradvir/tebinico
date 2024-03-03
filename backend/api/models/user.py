@@ -4,6 +4,8 @@ class User(db.Model, YvesMixin):
     """
     Represent the user table
     """
+    __tablename__ = 'users'
+
 
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(60), nullable=False)

@@ -124,6 +124,7 @@ class Refresh(Resource):
     @jwt_required(refresh=True)
     def get(self):
         current_user_id = get_jwt_identity()
+        print(current_user_id)
 
         new_access_token = create_access_token(identity=User.query.filter_by(id=current_user_id).first())
 

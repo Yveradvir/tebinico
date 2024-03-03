@@ -16,3 +16,4 @@ class YvesMixin(object):
 
 from .user import User
 from .tokenBlocklist import TokenBlocklist
+from .group import Group

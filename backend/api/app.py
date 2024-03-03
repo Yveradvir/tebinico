@@ -39,6 +39,9 @@ def api_setup(api: Api) -> None:
     api.add_resource(Refresh, '/auth/refresh')
 
     api.add_resource(Protected, '/protected')
+    api.add_resource(Me, '/me')
+
+    api.add_resource(Groups, '/groups/protected')
 
 def app_config(app: Flask) -> None:
     """
