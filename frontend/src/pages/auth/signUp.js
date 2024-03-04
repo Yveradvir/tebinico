@@ -3,8 +3,11 @@ import { Alert, Button, ButtonGroup, Container, Form, InputGroup, Row } from "re
 import { Envelope, Lock, ArrowClockwise } from "react-bootstrap-icons";
 import { axiosInstance, cookies } from "../../things";
 import tokenExp from "./tokenExp";
+import { useNavigate } from "react-router-dom";
 
 export default function SignUp({ formSetter }) {
+    const navigate = useNavigate();
+
     const [username, setUsername] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -35,6 +38,7 @@ export default function SignUp({ formSetter }) {
                         cookies.set('access', data.access, {
                             expires: tokensLife.a
                         })
+                        navigate('/home')
                     }
                 } catch (error) {
                     console.error(error);
@@ -69,6 +73,7 @@ export default function SignUp({ formSetter }) {
                             value={username}
                             onChange={(e) => setUsername(e.target.value)}
                             maxLength={60}
+                            minLength={2}
                             required
                         />
                     </InputGroup>
@@ -86,6 +91,7 @@ export default function SignUp({ formSetter }) {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             maxLength={60}
+                            minLength={4}
                             required
                         />
                     </InputGroup>
@@ -103,6 +109,7 @@ export default function SignUp({ formSetter }) {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             maxLength={20}
+                            minLength={4}
                             required
                         />
                     </InputGroup>
@@ -120,6 +127,7 @@ export default function SignUp({ formSetter }) {
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             maxLength={20}
+                            minLength={4}
                             required
                         />
                     </InputGroup>

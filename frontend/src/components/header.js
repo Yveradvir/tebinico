@@ -19,7 +19,7 @@ export default function Header() {
 
     const navs = [
         { href: "/home", text: "Home" },
-        { href: "/features", text: "Features" },
+        { href: "/groups", text: "Groups" },
         { href: "/pricing", text: "Pricing" },
         { href: "/faqs", text: "FAQs" },
         { href: "/about", text: "About" },
@@ -46,15 +46,15 @@ export default function Header() {
                                     </Nav.Link>
                                 </Nav.Item>
                             ))}
-                            <Button onClick={() => setShowSearchModal(true)} variant='primary' style={{ borderRadius: '26px' }}>
+                            {cookies.get('refresh') && (<Button onClick={() => setShowSearchModal(true)} variant='primary' style={{ borderRadius: '26px' }}>
                                 <Search />
-                            </Button>
+                            </Button>)}
                         </Nav>
                     </Col>
                     <Col xs={4} className="d-flex justify-content-end">
                         <div className='btn-group'>
                             <Button href='/auth' variant="primary">Authorization</Button>
-                            {cookies.get('access') && (
+                            {cookies.get('refresh') && (
                                 <>
                                     <Button variant='primary' onClick={() => setShowLogoutModal(true)}>Logout</Button>
                                 </>

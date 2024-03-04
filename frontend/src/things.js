@@ -101,4 +101,18 @@ axiosInstance.interceptors.response.use(
     }
 );
 
-export { cookies, axiosInstance };
+const handleReaction = async (val, post_id) => {
+    try {
+        const response = await axiosInstance.post("reaction", {
+            val, post_id
+        })
+
+        if (response.status === 200) {
+            window.location.reload()
+        } 
+    } catch (error) {
+    }
+};
+
+
+export { cookies, axiosInstance, handleReaction };

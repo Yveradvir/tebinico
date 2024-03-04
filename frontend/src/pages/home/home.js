@@ -4,6 +4,7 @@ import { axiosInstance } from "../../things";
 import { useEffect, useState } from "react";
 import UserCard from "./userCard";
 import Sidebar from "./sidebar";
+import Post from "../../components/post";
 
 export default function Home() {
     const [about, setAbout] = useState({});
@@ -47,14 +48,15 @@ export default function Home() {
                 {!loading && !error && (
                     <Row className="h-100">
                         <Col lg={3} className="h-100">
-                            <Sidebar />
-                            {/* <Sidebar groupsData={about.my_groups}/> */}
+                            <Sidebar groupsData={about.my_groups}/>
                         </Col>
                         <Col>
-                            <Button className="d-lg-none mt-2" onClick={() => alert("Toggle Sidebar")}>
-                                &#9655; Show Sidebar
-                            </Button>
                             <UserCard about={about} />
+                            <Row>
+                                {about.my_posts.map((post) => (
+                                    <Post key={post.id} post={post} />
+                                ))}                
+                            </Row>
                         </Col>
                     </Row>
                 )}

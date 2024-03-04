@@ -4,6 +4,38 @@ from const import *
 
 class ApiPost(Resource):
     @jwt_required()
+    def get(self):
+        args = request.args
+        g = args.get
+
+        if g('id'):
+            post = Post.query.filter_by(id=g('id')).first()
+
+            if post:
+                post = post.to_dict()
+                post['rating'] = define_rating(post['id'])
+
+                return make_response(
+                    jsonify(
+                        message="Success",
+                        post=post,
+                        am_i_owner=current_user.id == post['author_id']
+                    ), 200
+                )
+            else:
+                return make_response(
+                    jsonify(
+                        message="Post not found",
+                    ), 404
+                )
+        else:
+            return make_response(
+                jsonify(
+                    message="Invalid request. Provide 'id' parameter",
+                ), 400
+            )
+
+    @jwt_required()
     def post(self):
         parser = reqparse.RequestParser(bundle_errors=True)
         parser.add_argument('title', type=str, required=True, help='Title is required')
@@ -37,3 +69,40 @@ class ApiPost(Resource):
             ),
             200
         )
+
+    @jwt_required()
+    def delete(self):
+        args = request.args
+        g = args.get
+
+        if g('id'):
+            post = Post.query.filter_by(id=g('id'))
+            if post.first():
+                if post.first().author_id == current_user.id:
+                    Rate.query.filter_by(post_id=g('id')).delete()
+                    post.delete()
+                    db.session.commit()
+
+                    return make_response(
+                        jsonify(
+                            message="Success"
+                        ), 200
+                    )
+                else:
+                    return make_response(
+                        jsonify(
+                            message="You are not the author of this post."
+                        ), 403
+                    )
+            else:
+                return make_response(
+                    jsonify(
+                        message="Post not found."
+                    ), 404
+                )
+        else:
+            return make_response(
+                jsonify(
+                    message="Invalid request. Missing 'id' parameter."
+                ), 400
+            )

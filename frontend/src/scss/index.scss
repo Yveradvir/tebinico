@@ -66,3 +66,15 @@ $theme-colors: map-merge($theme-colors, (
     border-radius: 24px;
   }  
 }
+
+.truncated-text {
+  overflow: hidden;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  white-space: normal; 
+}
+
+.full-text {
+  display: block;
+  word-wrap: break-word;
+}

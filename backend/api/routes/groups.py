@@ -94,12 +94,17 @@ class SingleGroup(Resource):
                 post['rating'] = define_rating(post['id'])
                 posts.append(post)
 
+            am_in = Membership.query.filter_by(
+                group_id=id, user_id=current_user.id
+            ).first()
+
             return make_response(
                 jsonify(
                     message="Success",
                     group=group.to_dict(),
                     posts=posts,
-                    am_i_owner=group.author_id == current_user.id
+                    am_i_owner=group.author_id == current_user.id,
+                    am_in=am_in is not None
                 ), 200
             )
         else: 

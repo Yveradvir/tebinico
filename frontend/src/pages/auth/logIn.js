@@ -3,8 +3,11 @@ import { Alert, Button, ButtonGroup, Container, Form, InputGroup, Row } from "re
 import { Envelope, Lock, ArrowClockwise } from "react-bootstrap-icons";
 import { axiosInstance, cookies } from "../../things";
 import tokenExp from "./tokenExp";
+import { useNavigate } from "react-router-dom";
 
 export default function LogIn({ formSetter }) {
+    const navigate = useNavigate();
+    
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
@@ -35,6 +38,7 @@ export default function LogIn({ formSetter }) {
                         cookies.set('access', data.access, {
                             expires: tokensLife.a
                         })
+                        navigate('/home')
                     }
                 } catch (error) {
                     console.error(error);
@@ -67,6 +71,8 @@ export default function LogIn({ formSetter }) {
                             type="email"
                             placeholder="Enter your email"
                             value={email}
+                            minLength={4}
+                            maxLength={60}
                             onChange={(e) => setEmail(e.target.value)}
                             required
                         />
@@ -83,6 +89,8 @@ export default function LogIn({ formSetter }) {
                             type="password"
                             placeholder="Enter your password"
                             value={password}
+                            minLength={4}
+                            maxLength={20}
                             onChange={(e) => setPassword(e.target.value)}
                             required
                         />
@@ -99,6 +107,8 @@ export default function LogIn({ formSetter }) {
                             type="password"
                             placeholder="Confirm your password"
                             value={confirmPassword}
+                            minLength={4}
+                            maxLength={20}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             required
                         />

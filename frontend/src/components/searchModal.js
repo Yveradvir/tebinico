@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { axiosInstance, cookies } from "../things";
+import { useLocation, useNavigate } from "react-router-dom";
+import { cookies } from "../things";
 import { Alert, Button, ButtonGroup, Col, Form, Modal, Row } from "react-bootstrap";
 
 export default function SearchModal({ showModal, closeModal }) {
     const navigate = useNavigate();
+    const location = useLocation();
     const [filter, setFilter] = useState('');
     const [filterBy, setFilterBy] = useState('posts_by_name');
     const [errors, setErrors] = useState('');
@@ -17,6 +18,23 @@ export default function SearchModal({ showModal, closeModal }) {
 
     const handleSearch = async () => {
         try {
+            switch (filterBy) {
+                case 'groups_by_name':
+                    navigate(`/groups?filterBy=${filterBy}&filter=${filter}`)
+                    break;
+                    
+                case 'posts_by_name':
+                    if (location.pathname.startsWith('/group/')) {
+                        const groupId = location.pathname.split('/').pop();
+                        console.log(`You are in group with ID: ${groupId}`);
+
+                    }
+                    break;
+                default:
+                    break;
+                }
+                    // window.location.reload()
+                    handleClose();
         } catch (error) {
             console.error(error);
             let errorMessage = error.response?.data?.message || 'An error occurred';
@@ -31,10 +49,14 @@ export default function SearchModal({ showModal, closeModal }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            await handleSearch();
-        } catch (error) {
-            console.error("Error during search:", error);
+        if (cookies.get('refresh')) {
+            try {
+                await handleSearch();
+            } catch (error) {
+                console.error("Error during search:", error);
+            }
+        } else {
+            setErrors('You are unauthorized')
         }
     }
 
