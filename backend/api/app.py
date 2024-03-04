@@ -41,7 +41,11 @@ def api_setup(api: Api) -> None:
     api.add_resource(Protected, '/protected')
     api.add_resource(Me, '/me')
 
-    api.add_resource(Groups, '/groups/protected')
+    api.add_resource(Groups, '/groups')
+    api.add_resource(MyGroups, '/my_groups')
+    api.add_resource(SingleGroup, '/group/<int:id>')
+
+    api.add_resource(ApiPost, '/post')
 
 def app_config(app: Flask) -> None:
     """

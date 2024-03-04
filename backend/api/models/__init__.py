@@ -17,3 +17,11 @@ class YvesMixin(object):
 from .user import User
 from .tokenBlocklist import TokenBlocklist
 from .group import Group
+from .membership import Membership
+
+from .rate import Rate
+from .post import Post
+
+def define_rating(id):
+    _rate = Rate.query.filter_by(post_id=id).all()
+    return sum([i.val for i in _rate]) if _rate else 0

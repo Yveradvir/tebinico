@@ -6,7 +6,7 @@ class Me(Resource):
     def get(self):
         me: dict = current_user.to_dict()
         me.pop('password')
-        # my_groups = [_group.to_dict() for _group in Group.query.all()[0:7]]
+        my_groups = [membership.group.to_dict() for membership in Membership.query.filter_by(user_id=current_user.id).all()]
         my_posts = []
 
         args = request.args
