@@ -42,8 +42,6 @@ class Groups(Resource):
                 author_id=current_user.id
             )
 
-                
-
             db.session.add(group)
             db.session.commit()
             if len(Membership.query.filter_by(user_id=current_user.id).all()) <= 15:
@@ -86,13 +84,28 @@ class SingleGroup(Resource):
     @jwt_required()
     def get(self, id):
         group = Group.query.filter_by(id=id).first()
+        g = request.args.get
+        filterBy, _filter = g('filterBy'), g('filter') 
+
         if group:
             posts = [] 
+            _post = Post.query.filter_by(group_id=id).all()
+            if filterBy:
+                if filterBy == 'my_posts':
+                    _post = Post.query.filter_by(group_id=id, author_id=current_user.id).all()
+                elif filterBy == 'posts_by_name' and _filter:
+                    _post = Post.query.filter(
+                        Post.group_id == id,
+                        Post.title.ilike(f"%{_filter}%")
+                    ).all()
 
-            for post in Post.query.filter_by(group_id=id).all():
+            for post in _post:
                 post = post.to_dict()
                 post['rating'] = define_rating(post['id'])
                 posts.append(post)
+            
+            if filterBy == 'posts_by_rating':
+                posts = sorted(posts, key=lambda x: x['rating'], reverse=True)
 
             am_in = Membership.query.filter_by(
                 group_id=id, user_id=current_user.id

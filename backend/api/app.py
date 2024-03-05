@@ -48,6 +48,7 @@ def api_setup(api: Api) -> None:
     api.add_resource(SingleGroup, '/group/<int:id>')
 
     api.add_resource(ApiPost, '/post')
+    api.add_resource(TelegramToken, '/telegram_token')
 
 def app_config(app: Flask) -> None:
     """
@@ -67,7 +68,6 @@ def app_config(app: Flask) -> None:
     app.config["JWT_SECRET_KEY"] = genv("secret_key")
     app.config["JWT_ACCESS_TOKEN_EXPIRES"]  = access_expires
     app.config["JWT_REFRESH_TOKEN_EXPIRES"] = refresh_expires
-
 
 def makeapp() -> Flask:
     """

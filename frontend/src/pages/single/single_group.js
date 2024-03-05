@@ -25,7 +25,7 @@ export default function SingleGroup() {
                 const filter = params.get('filter');
 
                 let url = `group/${id}`;
-                if (filterBy && filter) {
+                if (filterBy) {
                     url += `?filterBy=${filterBy}&filter=${filter}`;
                 }
 

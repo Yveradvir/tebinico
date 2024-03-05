@@ -8,3 +8,4 @@ from .me import Me
 
 from .post import ApiPost
 from .actions import Reaction, ApiMembership
+from .telegram import TelegramToken

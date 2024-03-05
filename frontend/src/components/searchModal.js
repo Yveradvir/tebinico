@@ -18,23 +18,22 @@ export default function SearchModal({ showModal, closeModal }) {
 
     const handleSearch = async () => {
         try {
-            switch (filterBy) {
-                case 'groups_by_name':
-                    navigate(`/groups?filterBy=${filterBy}&filter=${filter}`)
-                    break;
-                    
-                case 'posts_by_name':
-                    if (location.pathname.startsWith('/group/')) {
-                        const groupId = location.pathname.split('/').pop();
-                        console.log(`You are in group with ID: ${groupId}`);
-
-                    }
-                    break;
-                default:
-                    break;
+            const params = {
+                in_group: location.pathname.startsWith('/group/'),
+                id: location.pathname.split('/').pop()
+            }
+            if (filterBy === 'groups_by_name') {
+                navigate(`/groups?filterBy=${filterBy}&filter=${filter}`);
+            } else if (['posts_by_name', 'my_posts', 'posts_by_rating'].includes(filterBy)) {
+                if (params.in_group) {
+                    navigate(`/group/${params.id}?filterBy=${filterBy}&filter=${filter}`);
                 }
-                    // window.location.reload()
-                    handleClose();
+            } else if (filterBy === 'all_my_posts') {
+                navigate('/home');
+            }
+            
+            window.location.reload()
+            handleClose();
         } catch (error) {
             console.error(error);
             let errorMessage = error.response?.data?.message || 'An error occurred';
@@ -75,7 +74,7 @@ export default function SearchModal({ showModal, closeModal }) {
                                 onChange={(e) => setFilterBy(e.target.value)}
                             >
                                 <option value="posts_by_name" selected>Post by name</option>
-                                <option value="post_by_rating">Post by rating</option>
+                                <option value="posts_by_rating">Post by rating</option>
                                 <option value="my_posts">My posts</option>
                                 <option value="all_my_posts">All my posts</option>
                                 <option value="groups_by_name" selected>Groups by name</option>

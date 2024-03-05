@@ -16,21 +16,21 @@ export default function Sidebar({groupsData}) {
     };
 
     return (
-        <>
+        <Col>
             {groupsData.slice(0, visibleGroups).map((group) => (
                 <div key={group.id} className="mt-2">
                     <Row>
-                        <Col>
+                        <Row>
                             <p className="truncated-text">{group.title.substring(0, 20)}</p>
-                        </Col>
-                        <Col>
+                        </Row>
+                        <Row>
                             <Button
                                 variant="outline-primary"
                                 onClick={() => navigate(`/group/${group.id}`)}
                             >
                                 Go to Group
                             </Button>
-                        </Col>
+                        </Row>
                     </Row>
                 </div>
             ))}
@@ -45,6 +45,6 @@ export default function Sidebar({groupsData}) {
                 </div>
             )}
             <AddBtn/>
-        </>
+        </Col>
     );
 }

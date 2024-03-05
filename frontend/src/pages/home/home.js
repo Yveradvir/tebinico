@@ -3,8 +3,8 @@ import Header from "../../components/header";
 import { axiosInstance } from "../../things";
 import { useEffect, useState } from "react";
 import UserCard from "./userCard";
-import Sidebar from "./sidebar";
 import Post from "../../components/post";
+import AddBtn from "../../components/addBtn";
 
 export default function Home() {
     const [about, setAbout] = useState({});
@@ -47,9 +47,6 @@ export default function Home() {
                 </Spinner>}
                 {!loading && !error && (
                     <Row className="h-100">
-                        <Col lg={3} className="h-100">
-                            <Sidebar groupsData={about.my_groups}/>
-                        </Col>
                         <Col>
                             <UserCard about={about} />
                             <Row>
@@ -61,6 +58,7 @@ export default function Home() {
                     </Row>
                 )}
             </Container>
+            <AddBtn/>
         </div>
     );
 }
