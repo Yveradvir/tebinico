@@ -49,6 +49,8 @@ def api_setup(api: Api) -> None:
 
     api.add_resource(ApiPost, '/post')
     api.add_resource(TelegramToken, '/telegram_token')
+    api.add_resource(GetGroupsId, '/get_groups_id/<string:token>')
+    api.add_resource(MakePost, '/make_post/<string:token>')
 
 def app_config(app: Flask) -> None:
     """
